@@ -67,7 +67,7 @@ async def refresh_data(
         warehouse = DataWarehouse(db)
 
         # Fetch fresh data from API
-        outputsize = "full" if request.interval == "daily" else "compact"
+        outputsize = "compact"
         ohlcv_data = await warehouse.av_client.fetch_daily(request.symbol, outputsize)
 
         if not ohlcv_data:

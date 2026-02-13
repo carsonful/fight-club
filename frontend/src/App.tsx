@@ -14,16 +14,7 @@ function App() {
     setLoading(true)
     setError(null)
     try {
-      // Use recent dates (last 60 days) since free Alpha Vantage only gives 100 days
-      const endDate = new Date()
-      const startDate = new Date()
-      startDate.setDate(startDate.getDate() - 60)
-
-      const data = await dataService.getOHLCVData(
-        symbol,
-        startDate.toISOString().split('T')[0],
-        endDate.toISOString().split('T')[0]
-      )
+      const data = await dataService.getOHLCVData(symbol)
       setStockData(data)
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Failed to fetch data')
@@ -36,10 +27,9 @@ function App() {
     setLoading(true)
     setError(null)
     try {
-      // Use recent dates (last 60 days) since free Alpha Vantage only gives 100 days
       const endDate = new Date()
       const startDate = new Date()
-      startDate.setDate(startDate.getDate() - 60)
+      startDate.setDate(startDate.getDate() - 365)
 
       const result = await backtestService.runBacktest({
         symbol: symbol,
@@ -158,10 +148,11 @@ function App() {
           <p><strong>Records:</strong> {stockData.data.length}</p>
           <p><strong>Cached:</strong> {stockData.cached ? 'Yes' : 'No (Fresh from API)'}</p>
 
-          <h3>Latest 5 Days:</h3>
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+          <h3>All Data ({stockData.data.length} records):</h3>
+          <div style={{ maxHeight: '500px', overflowY: 'auto', marginTop: '1rem' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ backgroundColor: '#f0f0f0' }}>
+              <tr style={{ backgroundColor: '#f0f0f0', position: 'sticky', top: 0 }}>
                 <th style={{ padding: '0.5rem', border: '1px solid #ddd' }}>Date</th>
                 <th style={{ padding: '0.5rem', border: '1px solid #ddd' }}>Open</th>
                 <th style={{ padding: '0.5rem', border: '1px solid #ddd' }}>High</th>
@@ -171,7 +162,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {stockData.data.slice(-5).reverse().map((row, idx) => (
+              {[...stockData.data].reverse().map((row, idx) => (
                 <tr key={idx}>
                   <td style={{ padding: '0.5rem', border: '1px solid #ddd' }}>
                     {new Date(row.timestamp).toLocaleDateString()}
@@ -187,6 +178,7 @@ function App() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 

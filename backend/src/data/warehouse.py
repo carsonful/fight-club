@@ -148,7 +148,7 @@ class DataWarehouse:
         """
         try:
             # Parse dates
-            start_dt = parse_date(start_date) if start_date else datetime.now() - timedelta(days=365)
+            start_dt = parse_date(start_date) if start_date else datetime(2000, 1, 1)
             end_dt = parse_date(end_date) if end_date else datetime.now()
 
             # Check cache
@@ -160,7 +160,6 @@ class DataWarehouse:
             else:
                 # Cache miss - fetch from API
                 print(f"Cache miss for {symbol}, fetching from Alpha Vantage...")
-                # Free tier only supports compact (last 100 days)
                 outputsize = "compact"
                 ohlcv_data = await self.av_client.fetch_daily(symbol, outputsize)
 
