@@ -1,5 +1,5 @@
 {
-  "name": "trading-backtest-frontend",
+  "name": "fight-club-frontend",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,11 +10,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0",
-    "axios": "^1.6.2",
-    "recharts": "^2.10.3",
-    "zustand": "^4.4.7"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.42",
